@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import ma.premo.production.backend_prodctiont_managment.models.Notification_Heures;
 import ma.premo.production.backend_prodctiont_managment.models.Response;
 import ma.premo.production.backend_prodctiont_managment.repositories.Notification_heurs_Rep;
-import ma.premo.production.backend_prodctiont_managment.repositories.services.notification_heures_service;
+import ma.premo.production.backend_prodctiont_managment.services.notification_heures_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +27,15 @@ public class notification_heures_controler {
     private final notification_heures_service notifServices;
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/save")
-    public ResponseEntity<Response> SaveNotification(@RequestBody Notification_Heures notif) {
+    @PostMapping("/save/{idLine}/{idProduit}/{idOf}")
+    public ResponseEntity<Response> SaveNotification(@RequestBody Notification_Heures notif ,
+                                                     @PathVariable("idLine") String idLine ,
+                                                     @PathVariable("idProduit") String idProduit,
+                                                     @PathVariable("idOf") String idOf) {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(now())
-                        .data(Map.of("notification",notifServices.save(notif)))
+                        .data(Map.of("notification",notifServices.save(notif,idLine,idProduit,idOf)))
                         .message("notification craeted")
                         .status(CREATED)
                         .statusCode(CREATED.value())
@@ -73,7 +76,7 @@ public class notification_heures_controler {
     // get notification par id
     @CrossOrigin(origins = "*")
     @GetMapping("/get/{id}")
-    public ResponseEntity<Response> getProduitById(@PathVariable("id") String id) {
+    public ResponseEntity<Response> getNotificationtById(@PathVariable("id") String id) {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(now())
@@ -88,19 +91,23 @@ public class notification_heures_controler {
     // get notification par chef d'équipe
     @CrossOrigin(origins = "*")
     @GetMapping("/getlist/{chef}")
-    public Collection<Notification_Heures> getProducts(@PathVariable("chef") String chef_equipe) {
+    public Collection<Notification_Heures> getNotifications(@PathVariable("chef") String chef_equipe) {
         return  notifServices.getNotif_heurByHE(chef_equipe);
     }
 
     //@CrossOrigin(origins = "*")
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{idNotif}/{idLine}/{idProduit}/{idOf}")
     // @RequestMapping(method = RequestMethod.PATCH)
-    public ResponseEntity<Response> UpdateProduit(@PathVariable("id") String id ,@RequestBody Notification_Heures notif) {
+    public ResponseEntity<Response> UpdateNotification(@PathVariable("idNotif") String idNotif,
+                                                       @PathVariable("idLine") String idLine,
+                                                       @PathVariable("idProduit") String idProduit ,
+                                                       @PathVariable("idOf") String idOf ,
+                                                       @RequestBody Notification_Heures notif) {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(now())
-                        .data(Map.of("product updated",notifServices.update(id , notif)))
-                        .message("product is updated")
+                        .data(Map.of("notification updated",notifServices.update(notif,idNotif,idLine,idProduit,idOf)))
+                        .message("notification is updated")
                         .status(OK)
                         .statusCode(OK.value())
                         .build()
@@ -110,7 +117,7 @@ public class notification_heures_controler {
 
     @CrossOrigin(origins = "*")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Response> DeleteProduit(@PathVariable("id") String id) {
+    public ResponseEntity<Response> DeleteNotification(@PathVariable("id") String id) {
 
         return ResponseEntity.ok(
                 Response.builder()
