@@ -23,5 +23,7 @@ public class Response {
     protected String developerMessage;
     protected Map<? , ?> data;
     protected Collection data1;
+    protected Object object;
+
 
 }

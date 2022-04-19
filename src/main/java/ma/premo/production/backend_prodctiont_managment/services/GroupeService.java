@@ -13,6 +13,10 @@ public interface GroupeService {
 
     Groupe get(String id);
 
+    Groupe getByDesignation(String designation);
+
+    Groupe getByChefEquipe(String chefEquipe);
+
     Groupe update(String id, Groupe g);
 
     Boolean delete(String id);

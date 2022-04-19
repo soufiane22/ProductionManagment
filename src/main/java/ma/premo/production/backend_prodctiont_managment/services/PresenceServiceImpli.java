@@ -28,6 +28,7 @@ public class PresenceServiceImpli implements PresenceService {
 
     @Override
     public Collection<Presence> list(int limit) {
+
         return  presenceRep.findAll(of(0,limit)).toList();
     }
 
@@ -35,6 +36,11 @@ public class PresenceServiceImpli implements PresenceService {
     public Collection<Presence> getALL() {
         log.info("Fetching all presence");
         return presenceRep.findAll();
+    }
+
+    @Override
+    public Collection<Presence> saveAll(Collection<Presence> listPresence){
+        return presenceRep.saveAll(listPresence);
     }
 
     @Override

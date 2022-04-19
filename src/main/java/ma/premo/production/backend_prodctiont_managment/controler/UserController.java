@@ -51,14 +51,30 @@ public class UserController {
                         .build());
     }
 
-    // get Products par id
+    // get Users par id
     @CrossOrigin(origins = "*")
     @GetMapping("/get/{id}")
-    public ResponseEntity<Response> getProductById(@PathVariable("id") String id) {
+    public ResponseEntity<Response> getUsertById(@PathVariable("id") String id) {
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(now())
                         .data(Map.of("User", userService.get(id)))
+                        .message("user retrieve")
+                        .status(OK)
+                        .statusCode(OK.value())
+                        .build()
+        );
+    }
+
+
+    // get Users by function
+    @CrossOrigin(origins = "*")
+    @GetMapping("/get/function/{function}")
+    public ResponseEntity<Response> getUsersByFunction(@PathVariable("function") String function) {
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(now())
+                        .data1( userService.getByFunction(function))
                         .message("user retrieve")
                         .status(OK)
                         .statusCode(OK.value())

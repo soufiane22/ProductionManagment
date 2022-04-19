@@ -26,6 +26,7 @@ public class User {
     private String fonction;
     private String password;
     private String email;
+    private String line;
     private int matricule;
 
 }

@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GroupeRep extends MongoRepository<Groupe,String> {
+    public Groupe getGroupeByDesignation(String designation);
+    public Groupe getGroupeByChefEquipe(String chefEquipe);
 }

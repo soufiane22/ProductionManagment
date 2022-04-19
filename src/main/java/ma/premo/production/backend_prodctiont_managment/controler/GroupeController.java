@@ -75,6 +75,37 @@ public class GroupeController {
         );
     }
 
+    // get Products par Designation
+    @CrossOrigin(origins = "*")
+    @GetMapping("/get/designation/{designation}")
+    public ResponseEntity<Response> getGroupByDesignation(@PathVariable("designation") String designation) {
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(now())
+                        .object(groupeService.getByDesignation(designation))
+                        .message("group retrieve")
+                        .status(OK)
+                        .statusCode(OK.value())
+                        .build()
+        );
+    }
+
+    // get Products par Designation
+    @CrossOrigin(origins = "*")
+    @GetMapping("/get/leader/{leader}")
+    public ResponseEntity<Response> getGroupByChefEquipe(@PathVariable("leader") String leader) {
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(now())
+                        .object(groupeService.getByChefEquipe(leader))
+                        .message("group retrieve")
+                        .status(OK)
+                        .statusCode(OK.value())
+                        .build()
+        );
+    }
+
+
     //@CrossOrigin(origins = "*")
     @PutMapping("/update/{id}")
     // @RequestMapping(method = RequestMethod.PATCH)

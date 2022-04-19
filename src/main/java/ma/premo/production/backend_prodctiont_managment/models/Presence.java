@@ -27,16 +27,15 @@ public class Presence {
     private int nbrHeurs;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ligne",referencedColumnName = "id")
-    private Line line;
+    private String line;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user",referencedColumnName = "id")
-    private User chefEquipe;
+    private String chefEquipe;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user",referencedColumnName = "id")
     private User operateur;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user",referencedColumnName = "id")
-    private User ingenieur;
+    private String ingenieur;
 
 }

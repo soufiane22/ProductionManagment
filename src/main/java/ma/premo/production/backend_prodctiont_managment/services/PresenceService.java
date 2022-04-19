@@ -12,6 +12,8 @@ public interface PresenceService {
 
     Collection<Presence> getALL();
 
+    Collection<Presence> saveAll(Collection<Presence> listPresence);
+
     Collection<Presence> getPresencetByShift(String shift);
 
     Presence get(String id);

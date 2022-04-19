@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.Map;
 
 import static java.time.LocalDateTime.now;
@@ -19,6 +20,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/presence")
+
 public class PresenceController {
     @Autowired
     private final PresenceService presenceService;
@@ -36,6 +38,17 @@ public class PresenceController {
                         .build()
         );
     }
+
+    // save list of presences
+
+        @CrossOrigin(origins = "*")
+        @PostMapping("/saveAll")
+        public Collection<Presence> saveAllPresences(@RequestBody Collection<Presence> listPresence){
+            return presenceService.saveAll(listPresence);
+        }
+
+
+
     //get toutes les OFs
     @CrossOrigin(origins = "*")
     @GetMapping("/getAll")

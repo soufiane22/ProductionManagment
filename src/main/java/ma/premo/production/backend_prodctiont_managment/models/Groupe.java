@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.MongoAction;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
@@ -29,10 +30,10 @@ public class Groupe {
     private String designation;
     private String shift;
 
-    @OneToOne
-    private User chefEquipe;
+    private String chefEquipe;
+    private User ingenieur;
     @OneToMany
-    private List<Line> listLine;
+    private List<String> listLine;
     @OneToMany
     private List<User> listOperateurs;
 

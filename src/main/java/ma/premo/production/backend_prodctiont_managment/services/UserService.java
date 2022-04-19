@@ -5,6 +5,7 @@ import ma.premo.production.backend_prodctiont_managment.models.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public interface UserService {
@@ -14,6 +15,8 @@ public interface UserService {
     Collection<User> getALL();
 
     User get(String id);
+
+    List<User> getByFunction(String function);
 
     User update(String id, User user);
 

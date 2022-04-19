@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -36,6 +37,12 @@ public class UserServiceImpli implements UserService {
     }
 
     @Override
+    public List<User> getByFunction(String function){
+        log.info("fetching  user by function"+function);
+        return userRep.findByFonction(function);
+    }
+
+    @Override
     public User update(String id, User u) {
         User user = new User();
          user = userRep.findById(id).orElseThrow();
@@ -46,6 +53,7 @@ public class UserServiceImpli implements UserService {
          user.setMatricule(u.getMatricule());
          user.setTele(u.getTele());
          user.setPassword(u.getPassword());
+         user.setLine(u.getLine());
         return userRep.save(user);
     }
 
