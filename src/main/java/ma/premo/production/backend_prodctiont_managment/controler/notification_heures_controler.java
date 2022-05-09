@@ -90,9 +90,9 @@ public class notification_heures_controler {
 
     // get notification par chef d'équipe
     @CrossOrigin(origins = "*")
-    @GetMapping("/getlist/{chef}")
-    public Collection<Notification_Heures> getNotifications(@PathVariable("chef") String chef_equipe) {
-        return  notifServices.getNotif_heurByHE(chef_equipe);
+    @GetMapping("/getlist/{idlaeder}")
+    public Collection<Notification_Heures> getNotifications(@PathVariable("idlaeder") String idlaeder) {
+        return  notifServices.getNotif_heurByHE(idlaeder);
     }
 
     //@CrossOrigin(origins = "*")

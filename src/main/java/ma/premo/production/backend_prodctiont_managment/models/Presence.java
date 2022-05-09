@@ -24,6 +24,7 @@ public class Presence {
     private String date;
     private String shift;
     private String etat;
+    private String groupe;
     private int nbrHeurs;
 
     @OneToOne(cascade = CascadeType.ALL)

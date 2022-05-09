@@ -63,6 +63,20 @@ public class PresenceController {
                         .build());
     }
 
+    //get toutes les OFs
+    @CrossOrigin(origins = "*")
+    @GetMapping("/getgroup/{id}/{date}")
+    public    ResponseEntity<Response>  getByLeaderAndDate(@PathVariable("id") String id ,@PathVariable("date") String date) {
+        return  ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(now())
+                        .data1(presenceService.getByLeaderAndDate(id,date))
+                        .message("get presences by leader and date")
+                        .status(OK)
+                        .statusCode(OK.value())
+                        .build());
+    }
+
 
     // get Products par id
     @CrossOrigin(origins = "*")

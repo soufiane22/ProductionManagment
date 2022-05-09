@@ -37,7 +37,7 @@ public class Notification_Heures  {
     @JoinColumn(name = "ligne",referencedColumnName = "id")
     private Line ligne;
 
-    private String chefEquipe;
+    private String idLeader;
     private String shift;
     private String date ;
     private String remark;
@@ -55,7 +55,7 @@ public class Notification_Heures  {
         this.OF = OF;
         this.ligne = l;
         this.produit = p;
-        this.chefEquipe = chef_equipe;
+        this.idLeader = chef_equipe;
         this.shift = shift;
         this.date = date;
         this.nbr_operateurs = nbr_operateurs;

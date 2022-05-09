@@ -49,6 +49,11 @@ public class PresenceServiceImpli implements PresenceService {
     }
 
     @Override
+    public Collection<Presence> getByLeaderAndDate(String id , String date) {
+        return  presenceRep.findByChefEquipeAndDate(id,date);
+    }
+
+    @Override
     public Presence get(String id) {
         log.info("Fetching presence by id ",id);
         return presenceRep.findById(id).orElseThrow();

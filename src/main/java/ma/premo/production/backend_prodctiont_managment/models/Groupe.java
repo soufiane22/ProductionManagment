@@ -29,7 +29,6 @@ public class Groupe {
     private String id;
     private String designation;
     private String shift;
-
     private String chefEquipe;
     private User ingenieur;
     @OneToMany

@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface UserRep  extends MongoRepository<User,String> {
     public List<User> findByFonction(String function);
+    public User findByUsername(String name);
 }

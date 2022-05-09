@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface Notification_heurs_Rep extends MongoRepository<Notification_Heures,String> {
- List<Notification_Heures> findNotification_HeuresByChefEquipe(String chef_equipe);
+ List<Notification_Heures> findNotification_HeuresByIdLeader(String idLeader);
 
 }

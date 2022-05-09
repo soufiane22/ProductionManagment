@@ -3,9 +3,8 @@ package ma.premo.production.backend_prodctiont_managment.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ma.premo.production.backend_prodctiont_managment.models.Groupe;
-import ma.premo.production.backend_prodctiont_managment.models.User;
 import ma.premo.production.backend_prodctiont_managment.repositories.GroupeRep;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +47,7 @@ public class GroupeServiceImpli implements GroupeService{
 
     @Override
     public Groupe getByChefEquipe(String chefEquipe) {
-        log.info("get groupe by designation "+chefEquipe);
+        log.info("get groupe by leader "+chefEquipe);
         return groupeRep.getGroupeByChefEquipe(chefEquipe);
     }
 

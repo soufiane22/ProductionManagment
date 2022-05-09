@@ -71,7 +71,7 @@ public class notification_heures_serviceImpli implements notification_heures_ser
     @Override
     public Collection<Notification_Heures> getNotif_heurByHE(String chef_equipe)
     {
-     Collection<Notification_Heures> listNotifs = notifRep.findNotification_HeuresByChefEquipe(chef_equipe);
+     Collection<Notification_Heures> listNotifs = notifRep.findNotification_HeuresByIdLeader(chef_equipe);
         return listNotifs;
     }
 

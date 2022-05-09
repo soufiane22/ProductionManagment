@@ -16,6 +16,8 @@ public interface PresenceService {
 
     Collection<Presence> getPresencetByShift(String shift);
 
+    Collection<Presence> getByLeaderAndDate(String id , String date);
+
     Presence get(String id);
 
     Presence update(String id, Presence presence );

@@ -1,5 +1,7 @@
 package ma.premo.production.backend_prodctiont_managment.controler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import ma.premo.production.backend_prodctiont_managment.models.Groupe;
 import ma.premo.production.backend_prodctiont_managment.models.Presence;
@@ -8,7 +10,10 @@ import ma.premo.production.backend_prodctiont_managment.repositories.GroupeRep;
 import ma.premo.production.backend_prodctiont_managment.services.GroupeService;
 import ma.premo.production.backend_prodctiont_managment.services.PresenceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONException;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -34,6 +39,7 @@ public class GroupeController {
 
     @CrossOrigin(origins = "*")
     @PostMapping("/save")
+    @Secured(value={"ROLE_ADMIN"})
     public ResponseEntity<Response> saveGroup(@RequestBody Groupe g){
         return ResponseEntity.ok(
                 Response.builder()
@@ -93,7 +99,13 @@ public class GroupeController {
     // get Products par Designation
     @CrossOrigin(origins = "*")
     @GetMapping("/get/leader/{leader}")
-    public ResponseEntity<Response> getGroupByChefEquipe(@PathVariable("leader") String leader) {
+    @Secured(value={"ROLE_ADMIN"})
+    public ResponseEntity<Response> getGroupByChefEquipe(@PathVariable("leader") String leader) throws JsonProcessingException, JSONException {
+        ObjectMapper mapper = new ObjectMapper();
+        //Converting the Object to JSONString
+       // String jsonString = mapper.writeValueAsString(groupeService.getByChefEquipe(leader));
+       // JSONObject jsonObject = new JSONObject(jsonString);
+        //System.out.println("groupeJson=====>"+jsonString);
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(now())

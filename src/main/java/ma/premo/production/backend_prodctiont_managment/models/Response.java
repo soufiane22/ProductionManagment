@@ -3,6 +3,7 @@ package ma.premo.production.backend_prodctiont_managment.models;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,8 @@ public class Response {
     protected String developerMessage;
     protected Map<? , ?> data;
     protected Collection data1;
-    protected Object object;
+    protected Object object = new Object();
+    protected JSONObject json;
 
 
 }
