@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import java.util.List;
+
 import static javax.persistence.GenerationType.AUTO;
 
 @Document(collection = "produit")
@@ -20,12 +22,18 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Produit {
+public class Produit implements Comparable<Produit>  {
 
     @Id
     @GeneratedValue(strategy = AUTO)
     private String id;
-    private String idLigne;
+    private List<Line> listLines;
     private String designation;
     private String reference;
+    private double tc;
+
+    @Override
+    public int compareTo(Produit p) {
+        return this.getReference().compareTo(p.getReference());
+    }
 }

@@ -7,39 +7,34 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-
+import javax.persistence.GeneratedValue;
 import java.util.Date;
 
 import static javax.persistence.GenerationType.AUTO;
 
-@Document(collection = "presence")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Presence {
+public class StatisticMonth {
+
     @Id
     @GeneratedValue(strategy = AUTO)
     private String id;
-    private String idPerson;
-    private String nomPerson;
-    private String prenomPerson;
-    private int matriculePerson;
-    private String functionPerson;
-    private String etat;
-    private String shift;
-    private Double nbrHeurs = 0.0;
-    private Line line = null;
-    private User leader;
-    private User technicalExpert;
-    private User supervisor;
-    private String zone;
+    private Line line;
+    private Produit reference;
+    private String month;
     private String date;
+    private String type;
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date createdAt;
-
-
+    private double standardHours;
+    private int year;
+    private int totalHours;
+    private int nvah;
+    private int output =0 ;
+    private int scrap =0;
+    private double productivity =0;
+    private double tauxScrap =0;
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Date;
 
 import static org.springframework.data.domain.PageRequest.of;
 
@@ -28,7 +29,6 @@ public class PresenceServiceImpli implements PresenceService {
 
     @Override
     public Collection<Presence> list(int limit) {
-
         return  presenceRep.findAll(of(0,limit)).toList();
     }
 
@@ -49,9 +49,16 @@ public class PresenceServiceImpli implements PresenceService {
     }
 
     @Override
-    public Collection<Presence> getByLeaderAndDate(String id , String date) {
-        return  presenceRep.findByChefEquipeAndDate(id,date);
+    public Collection<Presence> getPresenceByDate(String date) {
+        return presenceRep.findPresenceByDate(date);
     }
+
+    @Override
+    public Collection<Presence> getBetweenTwoDates(Date startDate, Date endDate) {
+
+        return presenceRep.findPresenceByCreatedAtBetween(startDate ,endDate);
+    }
+
 
     @Override
     public Presence get(String id) {
@@ -64,13 +71,9 @@ public class PresenceServiceImpli implements PresenceService {
         log.info("update presence",p);
         Presence presence = new Presence();
         presence = presenceRep.findById(id).orElseThrow();
-        presence.setDate(p.getDate());
         presence.setEtat(p.getEtat());
-        presence.setShift(p.getShift());
         presence.setNbrHeurs(p.getNbrHeurs());
-        presence.setLine(p.getLine());
-        presence.setOperateur(p.getOperateur());
-        presence.setIngenieur(p.getIngenieur());
+        presence.setShift(p.getShift());
         return presenceRep.save(presence);
     }
 

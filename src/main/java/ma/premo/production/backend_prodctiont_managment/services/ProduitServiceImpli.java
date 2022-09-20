@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import static org.springframework.data.domain.PageRequest.of;
 
@@ -32,13 +34,17 @@ public class ProduitServiceImpli implements ProduitService{
     @Override
     public Collection<Produit> getALL() {
         log.info("fetching all products ");
-        return  produitRep.findAll();
+        List<Produit> listProducts = produitRep.findAll();
+        Collections.sort((List)listProducts);
+        return  listProducts;
     }
 
     @Override
     public Collection<Produit> getProductByLine(String idLine) {
-        log.info("fetching products by line ");
-        return produitRep.findProduitByIdLigne(idLine);
+
+        List<Produit> listProducts = produitRep.findProduitByLineById(idLine);
+        Collections.sort((List)listProducts);
+        return listProducts;
     }
 
     @Override
@@ -53,7 +59,8 @@ public class ProduitServiceImpli implements ProduitService{
         p = produitRep.findById(id).orElseThrow();
         p.setDesignation(produit.getDesignation());
         p.setReference(produit.getReference());
-        p.setIdLigne(produit.getIdLigne());
+        p.setListLines(produit.getListLines());
+        p.setTc(produit.getTc());
         return produitRep.save(p);
     }
 

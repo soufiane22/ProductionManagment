@@ -17,11 +17,16 @@ import static javax.persistence.GenerationType.AUTO;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Line {
+public class Line implements Comparable<Line> {
 
     @Id
     @GeneratedValue(strategy = AUTO)
     private String id;
     private String designation;
     private int centre;
+
+    @Override
+    public int compareTo(Line line) {
+        return this.getDesignation().compareTo(line.getDesignation());
+    }
 }

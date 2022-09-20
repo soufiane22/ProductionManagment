@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LineRep extends MongoRepository<Line,String> {
+    long count();
 }

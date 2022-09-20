@@ -7,10 +7,7 @@ import ma.premo.production.backend_prodctiont_managment.models.Response;
 import ma.premo.production.backend_prodctiont_managment.repositories.Notification_heurs_Rep;
 import ma.premo.production.backend_prodctiont_managment.repositories.OfRep;
 import ma.premo.production.backend_prodctiont_managment.services.OfService;
-import ma.premo.production.backend_prodctiont_managment.services.notification_heures_service;
-import netscape.javascript.JSObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +25,7 @@ public class OfControler {
     OfRep ofRep;
     private final OfService ofService;
 
-    @CrossOrigin(origins = "*")
+
     @PostMapping("/save")
     public ResponseEntity<Response> saveOf(@RequestBody OF of){
        return ResponseEntity.ok(
@@ -44,7 +41,7 @@ public class OfControler {
 
 
     //get toutes les OFs
-    @CrossOrigin(origins = "*")
+
     @GetMapping("/getAll")
     public    ResponseEntity<Response>  getAllOFs() {
 
@@ -59,7 +56,7 @@ public class OfControler {
     }
 
     // get notification par id
-    @CrossOrigin(origins = "*")
+
     @GetMapping("/get/{id}")
     public ResponseEntity<Response> getOfId(@PathVariable("id") String id) {
         return ResponseEntity.ok(
@@ -74,7 +71,7 @@ public class OfControler {
     }
 
     // get notification par id
-    @CrossOrigin(origins = "*")
+
     @GetMapping("/get/produit/{id}")
     public ResponseEntity<Response> getOfByProduct(@PathVariable("id") String id) {
         return ResponseEntity.ok(
@@ -103,7 +100,7 @@ public class OfControler {
         );
     }
 
-    @CrossOrigin(origins = "*")
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Response> DeleteNotification(@PathVariable("id") String id) {
 

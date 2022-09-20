@@ -25,9 +25,10 @@ public class ProduitControler {
 
     private final ProduitService produitService;
 
-    @CrossOrigin(origins = "*")
+
     @PostMapping("/save")
     public ResponseEntity<Response> saveProduct(@RequestBody Produit p){
+        System.out.println("product to save "+p.toString());
         return ResponseEntity.ok(
                 Response.builder()
                         .timeStamp(now())
@@ -40,7 +41,7 @@ public class ProduitControler {
     }
 
     //get toutes les OFs
-    @CrossOrigin(origins = "*")
+
     @GetMapping("/getAll")
     public    ResponseEntity<Response>  getAllProducts() {
 
@@ -55,7 +56,7 @@ public class ProduitControler {
     }
 
     // get Products par id
-    @CrossOrigin(origins = "*")
+
     @GetMapping("/get/{id}")
     public ResponseEntity<Response> getProductById(@PathVariable("id") String id) {
         return ResponseEntity.ok(
@@ -71,7 +72,7 @@ public class ProduitControler {
 
 
     // get Products by line
-    @CrossOrigin(origins = "*")
+
     @GetMapping("/get/line/{idLine}")
     public ResponseEntity<Response> getProductByLine(@PathVariable("idLine") String idLine) {
         return ResponseEntity.ok(
@@ -100,7 +101,7 @@ public class ProduitControler {
         );
     }
 
-    @CrossOrigin(origins = "*")
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Response> DeleteProduct(@PathVariable("id") String id) {
 

@@ -12,6 +12,7 @@ import ma.premo.production.backend_prodctiont_managment.models.Produit;
 import ma.premo.production.backend_prodctiont_managment.models.Response;
 import ma.premo.production.backend_prodctiont_managment.models.User;
 import ma.premo.production.backend_prodctiont_managment.models.Role;
+import ma.premo.production.backend_prodctiont_managment.repositories.UserRep;
 import ma.premo.production.backend_prodctiont_managment.services.ProduitService;
 import ma.premo.production.backend_prodctiont_managment.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UserController {
     private final UserService userService;
 
-    @CrossOrigin(origins = "*")
+
+
     @PostMapping("/save")
     public ResponseEntity<Response> saveUser(@RequestBody User u){
         return ResponseEntity.ok(
@@ -57,8 +59,14 @@ public class UserController {
         );
     }
 
+
+    @GetMapping("/test")
+    public String testUser(){
+        return "test get";
+    }
+
     //get all users
-    @CrossOrigin(origins = "*")
+    //@CrossOrigin(origins = "*")
     @GetMapping("/getAll")
     public    ResponseEntity<Response>  getAllUsers() {
 
@@ -72,8 +80,26 @@ public class UserController {
                         .build());
     }
 
+
+    @GetMapping("/employees")
+    public    ResponseEntity<Response>  getEmployees() {
+        Collection<User> operators = userService.getByFunction("OPERATEUR");
+        Collection<User> maintenance = userService.getByFunction("MAINTENANCE");
+        Collection<User> employees = new ArrayList<>();
+        employees.addAll(operators);
+        employees.addAll(maintenance);
+        return  ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(now())
+                        .data1(employees)
+                        .message("get all employees")
+                        .status(OK)
+                        .statusCode(OK.value())
+                        .build());
+    }
+
     // get Users by id
-    @CrossOrigin(origins = "*")
+    //@CrossOrigin(origins = "*")
     @GetMapping("/get/{id}")
     public ResponseEntity<Response> getUsertById(@PathVariable("id") String id) {
         return ResponseEntity.ok(
@@ -87,23 +113,10 @@ public class UserController {
         );
     }
 
-    // get Users by username
-    @CrossOrigin(origins = "*")
-    @GetMapping("/get/username/{username}")
-    public ResponseEntity<Response> getUsertByUsername(@PathVariable("username") String username) {
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timeStamp(now())
-                        .object(userService.findByUsername(username))
-                        .message("user retrieve")
-                        .status(OK)
-                        .statusCode(OK.value())
-                        .build()
-        );
-    }
+
 
     // get Users by function
-    @CrossOrigin(origins = "*")
+    //@CrossOrigin(origins = "*")
     @GetMapping("/get/function/{function}")
     public ResponseEntity<Response> getUsersByFunction(@PathVariable("function") String function) {
         return ResponseEntity.ok(
@@ -111,6 +124,21 @@ public class UserController {
                         .timeStamp(now())
                         .data1( userService.getByFunction(function))
                         .message("user retrieve")
+                        .status(OK)
+                        .statusCode(OK.value())
+                        .build()
+        );
+    }
+
+    /****************** Total of user and lines and products  ***********************/
+
+    @GetMapping("/get/statistics")
+    public ResponseEntity<Response> getStatistics() {
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timeStamp(now())
+                        .data(userService.getStatistics())
+                        .message("statistics retrieve")
                         .status(OK)
                         .statusCode(OK.value())
                         .build()
@@ -133,9 +161,9 @@ public class UserController {
     }
 
 
-    @CrossOrigin(origins = "*")
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Response> DeleteProduct(@PathVariable("id") String id) {
+    public ResponseEntity<Response> DeleteAccount(@PathVariable("id") String id) {
 
         return ResponseEntity.ok(
                 Response.builder()
@@ -147,68 +175,6 @@ public class UserController {
                         .build()
         );
     }
-
-
-    @CrossOrigin(origins = "*")
-    @PostMapping("/role/save")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/role/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveRole(role));
-    }
-
-    @CrossOrigin(origins = "*")
-    @PostMapping("/role/addtouser")
-    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUser form){
-     userService.addRoleToUser(form.getUserName(),form.getRoleName());
-        return ResponseEntity.ok().build();
-    }
-
-    @CrossOrigin(origins = "*")
-    @PostMapping("/token/refresh")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-            String authorizationHeader = request.getHeader(AUTHORIZATION);
-
-            if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
-                try {
-                    String refresh_token = authorizationHeader.substring("Bearer ".length());
-                    Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-                    JWTVerifier verifier = JWT.require(algorithm).build();
-                    DecodedJWT decodedJWT = verifier.verify(refresh_token);
-                    String username = decodedJWT.getSubject();
-                    User user = userService.findByUsername(username);
-                    String access_token = JWT.create()
-                            .withSubject(user.getUsername())
-                            .withExpiresAt(new Date(System.currentTimeMillis() +10*60*1000 ))
-                            .withIssuer(request.getRequestURL().toString())
-                            .withClaim("roles",user.getRoles().stream().map(Role::getName).collect(Collectors.toList()))
-                            .sign(algorithm);
-
-                    HashMap<String , String> tokens = new HashMap<>();
-                    tokens.put("access_token",access_token);
-                    tokens.put("refresh_token",refresh_token);
-                    response.setContentType(APPLICATION_JSON_VALUE);
-                    new ObjectMapper().writeValue(response.getOutputStream(),tokens);
-
-
-                }catch (Exception exception){
-                    log.error("Error logging in {}",exception.getMessage());
-                    response.setHeader("error",exception.getMessage());
-                    response.setStatus(FORBIDDEN.value()); // interdit d'accés à ce recource 403
-                    // response.sendError(FORBIDDEN.value());
-
-                    HashMap<String , String> error = new HashMap<>();
-                    error.put("error_message",exception.getMessage());
-                    response.setContentType(APPLICATION_JSON_VALUE);
-                    new ObjectMapper().writeValue(response.getOutputStream(),error);
-                }
-            }else{
-                throw  new RuntimeException("Refresh token is missing");
-            }
-
-
-    }
-
 
 }
 @Data

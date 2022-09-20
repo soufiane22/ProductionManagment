@@ -16,23 +16,19 @@ import java.util.Collection;
 
 import static javax.persistence.GenerationType.AUTO;
 
-@Document(collection = "user")
+@Document(collection = "account")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class User {
+public class Account {
     @Id
     @GeneratedValue(strategy = AUTO)
-    private String id;
-    private String nom;
-    private String prenom;
-    private String tele;
-    private String fonction;
-    private String email;
-    private Line line ;
-    private int matricule;
-
-
-
+    private String id ;
+    private User user;
+    @Column(unique = true)
+    private String username;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+    private Collection<Role> roles = new ArrayList<>();
 }

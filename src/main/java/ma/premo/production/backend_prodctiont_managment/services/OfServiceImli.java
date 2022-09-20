@@ -2,11 +2,10 @@ package ma.premo.production.backend_prodctiont_managment.services;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ma.premo.production.backend_prodctiont_managment.models.Notification_Heures;
 import ma.premo.production.backend_prodctiont_managment.models.OF;
-import ma.premo.production.backend_prodctiont_managment.repositories.Notification_heurs_Rep;
+
 import ma.premo.production.backend_prodctiont_managment.repositories.OfRep;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -10,6 +10,7 @@ import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -32,20 +33,23 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        response.addHeader("Access-Control-Allow-Origin","*");
-        response.addHeader("Access-Control-Allow-Headers","*");
-        response.addHeader("Access-Control-Expose-Headers","*");
-        if(request.getMethod().equals("OPTIONS")){
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-        else if(request.getServletPath().equals("/login") ||  request.getServletPath().equals("user/token/refresh/") ){
+        response.setContentType(APPLICATION_JSON_VALUE);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+       //response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        if(request.getServletPath().equals("/login") ||  request.getServletPath().equals("user/token/refresh/") ){
             filterChain.doFilter(request,response);
         }else{
+
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             if(authorizationHeader != null ){ //&& authorizationHeader.startsWith("Bearer ")
                 try {
                     String token = authorizationHeader; //.substring("Bearer ".length())
-                 //  log.info("token=============>",token.toString());
+                   //log.info("token=============>",token);
+
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
@@ -59,6 +63,8 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                             new UsernamePasswordAuthenticationToken(username,null,authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request,response);
+
+                    response.setStatus(200);
 
                 }catch (Exception exception){
                     log.error("Error logging in {}",exception.getMessage());

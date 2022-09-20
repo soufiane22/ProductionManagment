@@ -27,7 +27,7 @@ public class LineControler {
 
     private final LineService lineService;
 
-    @CrossOrigin(origins = "*")
+
     @PostMapping("/save")
     public ResponseEntity<Response> saveLine(@RequestBody Line l){
         return ResponseEntity.ok(
@@ -42,7 +42,7 @@ public class LineControler {
     }
 
     //get toutes les OFs
-    @CrossOrigin(origins = "*")
+
     @GetMapping("/getAll")
     public    ResponseEntity<Response>  getAllLines() {
 
@@ -57,7 +57,7 @@ public class LineControler {
     }
 
     // get Products par id
-    @CrossOrigin(origins = "*")
+
     @GetMapping("/get/{id}")
     public ResponseEntity<Response> getLinetById(@PathVariable("id") String id) {
         return ResponseEntity.ok(
@@ -86,7 +86,7 @@ public class LineControler {
         );
     }
 
-    @CrossOrigin(origins = "*")
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Response> DeleteLine(@PathVariable("id") String id) {
 
