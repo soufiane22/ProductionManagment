@@ -125,7 +125,6 @@ public class notification_heures_serviceImpli implements notification_heures_ser
                 stLine.setType("line");
                 stLine.setYear(year);
                 stLine.setLine(line);
-                //stLine.setReference(notif.getProduit());
                 stLine.setDate(startDateStr);
                 stLine.setCreatedAt(monthFirstDay);
                 stLine.setMonth(monthYear);
